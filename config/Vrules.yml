@@ -1,0 +1,76 @@
+vThumb:
+  rulename1:
+    delete_source: false
+    params:
+      resize: true | false
+      background: [color]
+      label_text: [text \n second line]
+      label_direction: horisontal | vertical
+      label_text_background: [color]
+      label_text_opacity: [0-100]
+      label_position: top | bottom | left | right
+      label_position_x: [coordinates]
+      label_position_y: [coordinates]
+      reflection_height: [pixels]
+      reflection_opacity: [0-100]
+      watermark: [path]
+      watermark_position: top | bottom | left | right
+      watermark_x: [coordinates]
+      watermark_y: [coordinates]
+    sizes:
+      -
+        params:
+          filename: small
+          format: png | gif | jpeg
+          keep_ratio: true | false
+          ratio_fill: true | left | right | top | bottom
+          rotate: 90 | 180 | 270
+          flip: horisontal | vertical
+          width: 100 | auto
+          height: 100 | auto
+      -
+        params:
+          grey: true | false
+          filename: medium
+          format: png | gif | jpeg
+          keep_ratio: true | false
+          ratio_fill: true | left | right | top | bottom
+          rotate: 90 | 180 | 270
+          flip: horisontal | vertical
+          width: 200 | auto
+          height: 200 | auto
+  rulename2:
+    delete_source: false
+    params:
+      resize: true
+#      background: [color]
+#      label_text: [text \n second line]
+#      label_direction: horisontal | vertical
+#      label_text_background: [color]
+#      label_text_opacity: [0-100]
+#      label_position: top | bottom | left | right
+#      label_position_x: [coordinates]
+#      label_position_y: [coordinates]
+#      reflection_height: 10
+#      reflection_opacity: 100
+#      watermark: [path]
+#      watermark_position: top | bottom | left | right
+#      watermark_x: [coordinates]
+#      watermark_y: [coordinates]
+    sizes:
+      -
+        params:
+          filename: small
+          format: png
+#          keep_ratio: true
+          ratio_fill: true
+          width: 120
+          height: 120
+      -
+        params:
+          filename: medium
+          format: png
+#          keep_ratio: true
+          ratio_fill: true
+          width: 200
+          height: 200
