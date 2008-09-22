@@ -1,0 +1,129 @@
+= sfVThumbPlugin plugin =
+
+The `sfVThumbPlugin` creates thumbnails from images. It relies on the [http://php.net/gd/ GD] library and [http://www.verot.net/php_class_upload.htm class.upload.php].
+
+== Installation ==
+
+To install the plugin for a symfony project, the usual process is to use the symfony command line:
+{{{
+$ symfony plugin-install http://plugins.symfony-project.com/sfVThumbPlugin
+}}}
+
+Clear the cache to enable the autoloading to find the new classes:
+{{{
+$ php symfony cc
+}}}
+
+You're done.
+
+'''Note''': If the [http://php.net/gd GD library] is not activated, you might have to uncomment the related line in your `php.ini` and restart your web server to enable PHP image handling functions.
+
+== Contents ==
+
+The plugin contains one class - `sfVThumb`. Available methods are:
+
+{{{
+// Initialize the thumbnail attributes
+__construct($file, $rulename, $config = '')
+
+// Process and save images
+doResize()
+}}}
+
+Supported GD image types are 'image/jpeg', 'image/png' and 'image/gif', additionaly, class.upload supports 'image/bmp'.
+
+== Rules definition ==
+
+The resize relies on the YAML rules file:
+
+{{{
+vThumb:
+  rulename1:
+    delete_source: false
+    params:
+      resize: true | false # do resize?
+      background: color 
+      label_text: text \n second line
+      label_direction: horisontal | vertical
+      label_text_background: color
+      label_text_opacity: 0-100
+      label_position: top | bottom | left | right
+      label_position_x: coordinates
+      label_position_y: coordinates
+      reflection_height: pixels
+      reflection_opacity: 0-100
+      watermark: /path/to/file.png
+      watermark_position: top | bottom | left | right
+      watermark_x: coordinates
+      watermark_y: coordinates
+    sizes:
+      -
+        params:
+          filename: small #string to add to the begining of the original filename
+          format: png | gif | jpeg
+          keep_ratio: true | false #keep the ration
+          ratio_fill: true | left | right | top | bottom # fill the spaces thet dont match ration. Only one difinition of ratio allowed ratio_fill or keep_ratio
+          rotate: 90 | 180 | 270
+          flip: horisontal | vertical
+          width: 100
+          height: 100
+      -
+        params:
+          grey: true | false #convert to greyscale
+          filename: medium
+          format: png | gif | jpeg
+          keep_ratio: true | false
+          ratio_fill: true | left | right | top | bottom
+          rotate: 90 | 180 | 270
+          flip: horisontal | vertical
+          width: 200
+          height: 200
+}}}
+
+== Usage ==
+
+=== Creating a thumbnail from an existing image file ===
+
+The process of creating a thumbnail from an existing image file is pretty straightforward. 
+
+First, you must initialize a new `sfVThumb` object with two parameters: the source image and the rulename. Additionaly, you can specify rule file as a third parameter, rules can be located in the pplugins config directory, or in the application config directory
+
+{{{
+// Initialize the object for image with rule1
+$th = new sfVThumb($image, 'rulename1');
+}}}
+
+And just call
+
+{{{
+$th->doResize();
+}}}
+
+It will save the thumbnails in the original file directory with defined names
+
+=== Creating a thumbnail for an uploaded file ===
+
+{{{
+public function executeUpload()
+{
+  // upload original file
+  $fileName = $this->getRequest()->getFileName('file');
+  $this->getRequest()->moveFile('file', sfConfig::get('sf_upload_dir').'/'.$fileName);
+
+  // Create the thumbnail
+  $thumbnail = new sfVThumb(sfConfig::get('sf_upload_dir').'/'.$fileName, 'rulename1');
+  $thumbnail->doResize();
+  
+}
+}}}
+== ToDo ==
+ 
+* exceptions and errors reporting
+* helper 'upload_tag'
+* admin generator integration
+
+== Changelog ==
+
+=== 2008-09-22 | 0.5 Alpha ===
+
+ * VoSi: Initial release

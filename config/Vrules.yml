@@ -37,8 +37,8 @@ vThumb:
           ratio_fill: true | left | right | top | bottom
           rotate: 90 | 180 | 270
           flip: horisontal | vertical
-          width: 200 | auto
-          height: 200 | auto
+          width: 200
+          height: 200 
   rulename2:
     delete_source: false
     params:
